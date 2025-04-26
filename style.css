@@ -1,0 +1,241 @@
+:root {
+    --neon-blue: #00f2ff;
+    --neon-pink: #ff00ff;
+    --neon-purple: #9d00ff;
+    --dark-bg: #0a0a12;
+    --darker-bg: #050508;
+    --text-light: #ffffff;
+    --text-glow: rgba(0, 242, 255, 0.7);
+}
+
+body {
+    font-family: 'Orbitron', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background: var(--dark-bg);
+    color: var(--text-light);
+    overflow: hidden;
+}
+
+/* Circular stopwatch container */
+.stopwatch-container {
+    position: relative;
+    text-align: center;
+    background: var(--darker-bg);
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
+    border: 2px solid rgba(0, 242, 255, 0.1);
+    transition: all 0.5s ease;
+}
+
+/* Neon ring animation when running */
+.stopwatch-container::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+body.running .stopwatch-container::before {
+    opacity: 1;
+    animation: neon-pulse 2s infinite alternate;
+}
+
+@keyframes neon-pulse {
+    0% {
+        box-shadow: 0 0 10px var(--neon-blue),
+                   0 0 20px var(--neon-blue),
+                   0 0 30px var(--neon-blue);
+        border-color: var(--neon-blue);
+    }
+    100% {
+        box-shadow: 0 0 15px var(--neon-blue),
+                   0 0 30px var(--neon-blue),
+                   0 0 45px var(--neon-blue);
+        border-color: var(--neon-blue);
+    }
+}
+
+h1 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px var(--text-glow);
+}
+
+.display {
+    font-size: 2.0rem;
+    font-weight: bold;
+    margin: 1rem 0;
+    font-family: 'Orbitron', monospace;
+    letter-spacing: 3px;
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px var(--text-glow);
+    width: 100%;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    letter-spacing: 1px;
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(0, 242, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 242, 255, 0.2), transparent);
+    transition: 0.5s;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+#startBtn {
+    color: var(--neon-blue);
+    border-color: var(--neon-blue);
+}
+
+#startBtn:hover {
+    box-shadow: 0 0 10px var(--neon-blue);
+}
+
+#pauseBtn {
+    color: #ff4d4d;
+    border-color: #ff4d4d;
+}
+
+#pauseBtn:hover {
+    box-shadow: 0 0 10px #ff4d4d;
+}
+
+#pauseBtn:active {
+    background: #ff4d4d;
+    color: white;
+}
+
+#lapBtn {
+    color: var(--neon-purple);
+    border-color: var(--neon-purple);
+}
+
+#lapBtn:hover {
+    box-shadow: 0 0 10px var(--neon-purple);
+}
+
+#resetBtn {
+    color: #ffcc00;
+    border-color: #ffcc00;
+}
+
+#resetBtn:hover {
+    box-shadow: 0 0 10px #ffcc00;
+}
+
+.laps-container {
+    position: absolute;
+    bottom: -180px;
+    width: 100%;
+    max-height: 150px;
+    overflow-y: auto;
+    padding: 1rem;
+    background: rgba(5, 5, 20, 0.8);
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(0, 242, 255, 0.1);
+}
+
+.laps-container h2 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--neon-blue);
+    text-align: center;
+}
+
+#lapsList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#lapsList li {
+    padding: 0.5rem;
+    margin: 0.3rem 0;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    border-left: 2px solid var(--neon-blue);
+}
+
+#lapsList li:nth-child(odd) {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.lap-number {
+    color: var(--neon-blue);
+}
+
+.lap-time {
+    color: white;
+    font-family: 'Orbitron', monospace;
+}
+
+/* Custom scrollbar */
+#lapsList::-webkit-scrollbar {
+    width: 5px;
+}
+
+#lapsList::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#lapsList::-webkit-scrollbar-thumb {
+    background: var(--neon-blue);
+    border-radius: 5px;
+}
+
+/* Add this to your head tag in HTML if not already present */
+
